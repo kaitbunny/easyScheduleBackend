@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.easySchedule.backend.model.Periodo;
+import com.easySchedule.backend.domain.model.enums.Periodo;
 
 @Converter
 public class JsonConverter implements AttributeConverter<List<Periodo>, String> {

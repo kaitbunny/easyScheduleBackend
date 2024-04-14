@@ -1,9 +1,11 @@
-package com.easySchedule.backend.model;
+package com.easySchedule.backend.domain.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+import com.easySchedule.backend.domain.model.enums.Periodo;
 import com.easySchedule.backend.utils.JsonConverter;
 
 import jakarta.persistence.Column;
@@ -16,9 +18,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 public class Curso {
-
+	@EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
