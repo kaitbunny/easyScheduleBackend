@@ -25,7 +25,12 @@ public class JsonConverter implements AttributeConverter<List<Periodo>, String> 
 	    String[] periodoStrings = dbData.replaceAll("\\[|\\]", "").split(", ");
 	    List<Periodo> periodos = new ArrayList<>();
 	    for (String periodoString : periodoStrings) {
-	        periodos.add(Periodo.valueOf(periodoString));
+	    	try {
+	    		periodos.add(Periodo.valueOf(periodoString));
+	    	}
+	        catch(IllegalArgumentException e) {
+	        	System.out.println(e.getMessage());
+	        }
 	    }
 	    return periodos;
 	}
