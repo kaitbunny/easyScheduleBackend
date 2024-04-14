@@ -1,0 +1,7 @@
+CREATE TABLE escola (
+    id BIGINT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    logo TEXT,
+    
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
