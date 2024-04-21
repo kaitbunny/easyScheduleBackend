@@ -1,0 +1,9 @@
+CREATE TABLE disciplina (
+    id BIGINT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    ativo TINYINT(1) NOT NULL DEFAULT 1,
+    curso_id BIGINT NOT NULL,
+    
+    PRIMARY KEY(id),
+    FOREIGN KEY(curso_id) REFERENCES curso(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
