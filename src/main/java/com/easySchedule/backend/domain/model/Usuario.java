@@ -59,4 +59,8 @@ public class Usuario {
     @ManyToOne(optional = true)
     @JoinColumn(name = "curso_id")
     private Curso curso;
+    
+    @ManyToOne
+    @JoinColumn(name = "turma_id", nullable = true)
+    private Turma turma;
 }
