@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,8 +40,10 @@ public class Usuario {
     private boolean ativo;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "escola_id")
     private Escola escola;
     
     @ManyToOne(optional = false)
+    @JoinColumn(name = "curso_id")
     private Curso curso;
 }
