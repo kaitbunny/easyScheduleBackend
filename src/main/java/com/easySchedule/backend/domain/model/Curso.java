@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 import com.easySchedule.backend.domain.model.enums.Periodo;
-import com.easySchedule.backend.utils.JsonConverter;
+import com.easySchedule.backend.utils.jsonConverter.JsonConverterPeriodo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -29,7 +29,7 @@ public class Curso {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Convert(converter = JsonConverter.class)
+    @Convert(converter = JsonConverterPeriodo.class)
     private List<Periodo> periodos;
 
     @ManyToOne
