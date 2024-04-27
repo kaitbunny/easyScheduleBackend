@@ -2,6 +2,10 @@ package com.easySchedule.backend.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +20,9 @@ public class Disciplina {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @ManyToMany(mappedBy = "disciplinas")
+    private Set<Usuario> professores = new HashSet<>();
+    
     @Column(nullable = false)
     private boolean ativo;
 
