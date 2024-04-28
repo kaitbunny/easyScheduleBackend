@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 public class PageableBuilder {
     private static final int ITENS_POR_PAGINA = 20;
 
-    private void validateParams(Integer page, String sortProperty, String sortDirection) {
+    private static void validateParams(Integer page, String sortProperty, String sortDirection) {
     	if (page == null || page < 1) {
             throw new IllegalArgumentException("O número da página deve ser maior que zero.");
         }
@@ -22,11 +22,11 @@ public class PageableBuilder {
         }
     }
     
-    private String formatString(String string) {
+    private static String formatString(String string) {
     	return string.trim().toLowerCase();
     }
     
-    private Direction validateDirection(String sortDirection) {
+    private static Direction validateDirection(String sortDirection) {
     	Direction direction;
     	
         try {
@@ -38,30 +38,30 @@ public class PageableBuilder {
         return direction;
     }
     
-    public Pageable build(Integer page, String sortProperty, String sortDirection) {
+    public static Pageable build(Integer page, String sortProperty, String sortDirection) {
     	
-        this.validateParams(page, sortProperty, sortDirection);
+        validateParams(page, sortProperty, sortDirection);
 
-        sortDirection = this.formatString(sortDirection);
+        sortDirection = formatString(sortDirection);
 
-        Direction direction = this.validateDirection(sortDirection);
+        Direction direction = validateDirection(sortDirection);
         
         int pageNumber = page - 1;
 
         return PageRequest.of(pageNumber, ITENS_POR_PAGINA, Sort.by(direction, sortProperty));
     }
 
-    public Pageable build(Integer page, String sortProperty, String sortDirection, Integer itemsPerPage) {
+    public static Pageable build(Integer page, String sortProperty, String sortDirection, Integer itemsPerPage) {
     	
-    	this.validateParams(page, sortProperty, sortDirection);
+    	validateParams(page, sortProperty, sortDirection);
     	
     	if (itemsPerPage < 1) {
             throw new IllegalArgumentException("O número de itens por página deve ser maior que zero.");
         }
     	
-    	sortDirection = this.formatString(sortDirection);
+    	sortDirection = formatString(sortDirection);
     	
-    	Direction direction = this.validateDirection(sortDirection);
+    	Direction direction = validateDirection(sortDirection);
     	
     	int pageNumber = page - 1;
     	
