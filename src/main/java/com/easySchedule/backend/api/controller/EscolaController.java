@@ -26,11 +26,21 @@ public class EscolaController {
 			@RequestParam("sortProperty") String sortProperty,
 			@RequestParam("sortDirection") String sortDirection) {
 		
-		return escolaService.listarPorPagina(page, sortProperty, sortDirection);
+		return this.escolaService.listarPorPagina(page, sortProperty, sortDirection);
 	}
 	
 	@GetMapping("/{id}")
 	public Escola buscar(@PathVariable Long id) {
 		return this.escolaService.buscarOuFalhar(id);
+	}
+	
+	@GetMapping("/por-nome")
+	public PaginatedResponse<Escola> buscarPorNome(
+			@RequestParam("nome") String nome,
+			@RequestParam("page") Integer page,
+			@RequestParam("sortProperty") String sortProperty,
+			@RequestParam("sortDirection") String sortDirection) {
+		
+		return this.escolaService.buscarPorNome(nome, page, sortProperty, sortDirection);
 	}
 }

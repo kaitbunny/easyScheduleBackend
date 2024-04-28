@@ -29,4 +29,11 @@ public class CadastroEscolaService {
 		
 		return ResponseBuilder.build(result, page);
 	}
+
+	public PaginatedResponse<Escola> buscarPorNome(String nome, Integer page, String sortProperty, String sortDirection) {
+		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
+		Page<Escola> result = repository.findByNomeContaining(nome, pageable);
+		
+		return ResponseBuilder.build(result, page);
+	}
 }
