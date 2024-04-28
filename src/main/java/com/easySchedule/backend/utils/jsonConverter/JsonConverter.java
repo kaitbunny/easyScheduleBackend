@@ -1,4 +1,4 @@
-package com.easySchedule.backend.utils.jsonConverter;
+package com.easySchedule.backend.utils.jsonconverter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

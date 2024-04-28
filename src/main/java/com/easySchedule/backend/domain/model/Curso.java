@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 import com.easySchedule.backend.domain.model.enums.Periodo;
-import com.easySchedule.backend.utils.jsonConverter.JsonConverterPeriodo;
+import com.easySchedule.backend.utils.jsonconverter.JsonConverterPeriodo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
