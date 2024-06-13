@@ -1,4 +1,4 @@
-package com.easySchedule.backend.utils.jsonconverter;
+package com.easySchedule.backend.utils.jsonConverter;
 
 
 
