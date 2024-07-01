@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,5 +53,10 @@ public class EscolaController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Escola adicionar(@RequestBody Escola escola) {
 		return this.escolaService.salvar(escola);
+	}
+	
+	@PutMapping("/{id}")
+	public Escola atualizar(@PathVariable Long id, @RequestBody Escola escola) {
+		return this.escolaService.atualizar(id, escola);
 	}
 }

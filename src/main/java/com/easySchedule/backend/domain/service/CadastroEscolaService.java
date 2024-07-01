@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,5 +40,13 @@ public class CadastroEscolaService {
 	
 	public Escola salvar(Escola escola) {
 		return this.repository.save(escola);
+	} 
+	
+	public Escola atualizar(Long id, Escola escola) {
+		Escola escolaAtual = this.buscarOuFalhar(id);
+		
+		BeanUtils.copyProperties(escola, escolaAtual, "id");
+		
+		return this.salvar(escolaAtual);
 	}
 }
