@@ -36,4 +36,8 @@ public class CadastroEscolaService {
 		
 		return ResponseBuilder.build(result, page);
 	}
+	
+	public Escola salvar(Escola escola) {
+		return this.repository.save(escola);
+	}
 }
