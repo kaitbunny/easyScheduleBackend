@@ -2,6 +2,8 @@ package com.easySchedule.backend.domain.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,5 +50,17 @@ public class CadastroEscolaService {
 		BeanUtils.copyProperties(escola, escolaAtual, "id");
 		
 		return this.salvar(escolaAtual);
+	}
+	
+	public void excluir(Long id) {
+		try {
+			this.repository.deleteById(id);
+		}
+		catch(EmptyResultDataAccessException e) {
+			//TODO mandar uma exception de escola nao encontrada
+		}
+		catch(DataIntegrityViolationException e) {
+			//TODO mandar exception de escola em uso
+		}
 	}
 }
