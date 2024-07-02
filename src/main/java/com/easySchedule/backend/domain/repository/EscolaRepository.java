@@ -8,5 +8,5 @@ import com.easySchedule.backend.domain.model.Escola;
 
 @Repository
 public interface EscolaRepository extends JpaRepository<Escola, Long>, JpaSpecificationExecutor<Escola> {
-    // Remova o método findByNomeContaining se não for mais necessário
+
 }
