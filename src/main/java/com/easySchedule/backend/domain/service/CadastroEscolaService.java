@@ -3,14 +3,18 @@ package com.easySchedule.backend.domain.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.easySchedule.backend.domain.exception.emuso.EntidadeEmUsoException;
+import com.easySchedule.backend.domain.exception.emuso.EscolaEmUsoException;
+import com.easySchedule.backend.domain.exception.notfound.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.exception.notfound.EscolaNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Escola;
 import com.easySchedule.backend.domain.repository.EscolaRepository;
+import com.easySchedule.backend.domain.specification.EscolaSpecification;
 import com.easySchedule.backend.utils.paginatedresponse.PageableBuilder;
 import com.easySchedule.backend.utils.paginatedresponse.PaginatedResponse;
 import com.easySchedule.backend.utils.paginatedresponse.ResponseBuilder;
@@ -21,24 +25,18 @@ public class CadastroEscolaService {
 	@Autowired
 	private EscolaRepository repository;
 	
-	public Escola buscarOuFalhar(Long id) {
+	public Escola buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
 		return repository.findById(id).orElseThrow(() ->
 		new EscolaNaoEncontradaException(id));
 	}
 	
-	public PaginatedResponse<Escola> listarPorPagina(Integer page, String sortProperty, String sortDirection) {
-		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
-		Page<Escola> result = repository.findAll(pageable);
-		
-		return ResponseBuilder.build(result, page);
-	}
-
-	public PaginatedResponse<Escola> buscarPorNome(String nome, Integer page, String sortProperty, String sortDirection) {
-		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
-		Page<Escola> result = repository.findByNomeContaining(nome, pageable);
-		
-		return ResponseBuilder.build(result, page);
-	}
+	public PaginatedResponse<Escola> listarPorPagina(Integer page, String sortProperty, String sortDirection, String nome) {
+        Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
+        Specification<Escola> spec = Specification.where(EscolaSpecification.nomeContains(nome));
+        Page<Escola> result = repository.findAll(spec, pageable);
+        
+        return ResponseBuilder.build(result, page);
+    }
 	
 	public Escola salvar(Escola escola) {
 		return this.repository.save(escola);
@@ -52,15 +50,12 @@ public class CadastroEscolaService {
 		return this.salvar(escolaAtual);
 	}
 	
-	public void excluir(Long id) {
+	public void excluir(Long id) throws EntidadeEmUsoException {
 		try {
 			this.repository.deleteById(id);
 		}
-		catch(EmptyResultDataAccessException e) {
-			//TODO mandar uma exception de escola nao encontrada
-		}
 		catch(DataIntegrityViolationException e) {
-			//TODO mandar exception de escola em uso
+			throw new EscolaEmUsoException(id);
 		}
 	}
 }

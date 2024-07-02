@@ -26,29 +26,20 @@ public class EscolaController {
 	@Autowired
 	private CadastroEscolaService escolaService;
 	
-	@GetMapping
-	public PaginatedResponse<Escola> listar(
-			@RequestParam("page") Integer page,
-			@RequestParam("sortProperty") String sortProperty,
-			@RequestParam("sortDirection") String sortDirection) {
-		
-		return this.escolaService.listarPorPagina(page, sortProperty, sortDirection);
-	}
-	
 	@GetMapping("/{id}")
 	public Escola buscar(@PathVariable Long id) {
 		return this.escolaService.buscarOuFalhar(id);
 	}
 	
-	@GetMapping("/por-nome")
-	public PaginatedResponse<Escola> buscarPorNome(
-			@RequestParam("nome") String nome,
-			@RequestParam("page") Integer page,
-			@RequestParam("sortProperty") String sortProperty,
-			@RequestParam("sortDirection") String sortDirection) {
-		
-		return this.escolaService.buscarPorNome(nome, page, sortProperty, sortDirection);
-	}
+	@GetMapping
+    public PaginatedResponse<Escola> listar(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "sortProperty", defaultValue = "id") String sortProperty,
+            @RequestParam(value = "sortDirection", defaultValue = "desc") String sortDirection,
+            @RequestParam(value = "nome", required = false) String nome) {
+        
+        return this.escolaService.listarPorPagina(page, sortProperty, sortDirection, nome);
+    }
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
