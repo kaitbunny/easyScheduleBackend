@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
 import com.easySchedule.backend.domain.exception.emuso.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.emuso.EscolaEmUsoException;
-import com.easySchedule.backend.domain.exception.notfound.EntidadeNaoEncontradaException;
-import com.easySchedule.backend.domain.exception.notfound.EscolaNaoEncontradaException;
+import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Escola;
 import com.easySchedule.backend.domain.repository.EscolaRepository;
 import com.easySchedule.backend.domain.specification.EscolaSpecification;
@@ -28,7 +27,7 @@ public class CadastroEscolaService {
 	
 	public Escola buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
 		return repository.findById(id).orElseThrow(() ->
-		new EscolaNaoEncontradaException(id));
+		new EntidadeNaoEncontradaException(new Escola(), id));
 	}
 	
 	public PaginatedResponse<Escola> listarPorPagina(Integer page, String sortProperty, String sortDirection, String nome) {

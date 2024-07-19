@@ -1,8 +1,6 @@
 package com.easySchedule.backend.domain.exception.emuso;
 
-import com.easySchedule.backend.domain.exception.notfound.EntidadeNaoEncontradaException;
-
-public class EscolaEmUsoException extends EntidadeNaoEncontradaException {
+public class EscolaEmUsoException extends EntidadeEmUsoException {
 	private static final long serialVersionUID = 1L;
 
 	public EscolaEmUsoException(String msg) {

@@ -17,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
-import com.easySchedule.backend.domain.exception.notfound.EntidadeNaoEncontradaException;
+import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
