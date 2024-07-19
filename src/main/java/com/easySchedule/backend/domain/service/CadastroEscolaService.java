@@ -9,8 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
-import com.easySchedule.backend.domain.exception.emuso.EntidadeEmUsoException;
-import com.easySchedule.backend.domain.exception.emuso.EscolaEmUsoException;
+import com.easySchedule.backend.domain.exception.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Escola;
 import com.easySchedule.backend.domain.repository.EscolaRepository;
@@ -60,7 +59,7 @@ public class CadastroEscolaService {
 			this.repository.deleteById(id);
 		}
 		catch(DataIntegrityViolationException e) {
-			throw new EscolaEmUsoException(id);
+			throw new EntidadeEmUsoException(new Escola(), id);
 		}
 	}
 }

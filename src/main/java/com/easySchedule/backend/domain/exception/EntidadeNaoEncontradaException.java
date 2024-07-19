@@ -12,10 +12,6 @@ public class EntidadeNaoEncontradaException extends NegocioException {
 	}
 
 	private static String getMessage(Object obj, Long id) {
-		return String.format("Não existe um cadastro de %s com id %s", getClassName(obj), id);
-	}
-	
-	private static String getClassName(Object obj) {
-		return obj.getClass().getSimpleName().toLowerCase();
+		return String.format("Não existe um cadastro de %s com id %d.", getClassName(obj), id);
 	}
 }

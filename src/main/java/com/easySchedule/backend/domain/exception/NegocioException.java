@@ -10,4 +10,8 @@ public class NegocioException extends RuntimeException {
 	public NegocioException(String msg, Throwable causa) {
 		super(msg, causa);
 	}
+	
+	protected static String getClassName(Object obj) {
+		return obj.getClass().getSimpleName().toLowerCase();
+	}
 }
