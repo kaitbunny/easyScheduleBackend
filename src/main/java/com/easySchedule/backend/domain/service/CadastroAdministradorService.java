@@ -1,6 +1,8 @@
 package com.easySchedule.backend.domain.service;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +23,11 @@ public class CadastroAdministradorService {
 	@Autowired
 	private AdministradorRepository repository;
 
+	public Administrador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
+		return repository.findById(id).orElseThrow(() ->
+		new EntidadeNaoEncontradaException(new Administrador(), id));
+	}
+	
 	public PaginatedResponse<Administrador> listarPorPagina(Integer page, String sortProperty, String sortDirection,
             String nome, String email, TipoAdministrador tipo, Boolean ativo, Long escolaId) {
         
@@ -38,8 +45,18 @@ public class CadastroAdministradorService {
         return ResponseBuilder.build(result, page);
     }
 	
-	public Administrador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
-		return repository.findById(id).orElseThrow(() ->
-		new EntidadeNaoEncontradaException(new Administrador(), id));
+	public Administrador salvar(Administrador administrador) throws PropertyValueException {
+		try {
+			return this.repository.save(administrador);
+		}
+		catch(DataIntegrityViolationException e) {
+			if(e.getCause() instanceof PropertyValueException) {
+				throw (PropertyValueException) e.getCause();
+			}
+			else {
+				throw e;
+			}
+		}
 	}
+	
 }
