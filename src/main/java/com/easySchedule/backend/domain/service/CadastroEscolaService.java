@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
 import com.easySchedule.backend.domain.exception.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Escola;
@@ -37,12 +37,17 @@ public class CadastroEscolaService {
         return ResponseBuilder.build(result, page);
     }
 	
-	public Escola salvar(Escola escola) throws CorpoDeRequisicaoInvalidoException {
+	public Escola salvar(Escola escola) throws PropertyValueException {
 		try {
 			return this.repository.save(escola);						
 		}
 		catch(DataIntegrityViolationException e) {
-			throw new CorpoDeRequisicaoInvalidoException(e.getMessage());
+			if(e.getCause() instanceof PropertyValueException) {
+				throw (PropertyValueException) e.getCause();
+			}
+			else {
+				throw e;
+			}
 		}
 	} 
 	

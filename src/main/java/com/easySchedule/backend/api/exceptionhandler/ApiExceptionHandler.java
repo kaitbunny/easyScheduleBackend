@@ -3,6 +3,7 @@ package com.easySchedule.backend.api.exceptionhandler;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
 import com.easySchedule.backend.domain.exception.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,12 +26,19 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(CorpoDeRequisicaoInvalidoException.class)
-	public ResponseEntity<Object> handleCorpoDeRequisicaoInvalidoException(CorpoDeRequisicaoInvalidoException ex,
+	@ExceptionHandler(PropertyValueException.class)
+	public ResponseEntity<Object> handlePropertyValueException(PropertyValueException ex,
 			WebRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
-		String detail = ex.getMessage();
+		
+		String entidade = ex.getEntityName().substring(ex.getEntityName().lastIndexOf(".") + 1).toLowerCase();
+		String parametro = ex.getPropertyName().toLowerCase();
+		
+		String detail = String.format(
+				"O corpo da sua requisição está inválido. O atributo '%s' da entidade '%s' não pode ser null.", 
+				parametro,
+				entidade);
 
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 
