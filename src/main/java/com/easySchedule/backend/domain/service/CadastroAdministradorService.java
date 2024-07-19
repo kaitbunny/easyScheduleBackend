@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Administrador;
 import com.easySchedule.backend.domain.model.enums.TipoAdministrador;
 import com.easySchedule.backend.domain.repository.AdministradorRepository;
@@ -36,4 +37,9 @@ public class CadastroAdministradorService {
         
         return ResponseBuilder.build(result, page);
     }
+	
+	public Administrador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
+		return repository.findById(id).orElseThrow(() ->
+		new EntidadeNaoEncontradaException(new Administrador(), id));
+	}
 }
