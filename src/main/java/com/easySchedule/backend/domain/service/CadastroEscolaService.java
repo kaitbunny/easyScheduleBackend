@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.easySchedule.backend.domain.exception.CorpoDeRequisicaoInvalidoException;
 import com.easySchedule.backend.domain.exception.emuso.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.emuso.EscolaEmUsoException;
 import com.easySchedule.backend.domain.exception.notfound.EntidadeNaoEncontradaException;
@@ -38,8 +39,13 @@ public class CadastroEscolaService {
         return ResponseBuilder.build(result, page);
     }
 	
-	public Escola salvar(Escola escola) {
-		return this.repository.save(escola);
+	public Escola salvar(Escola escola) throws CorpoDeRequisicaoInvalidoException {
+		try {
+			return this.repository.save(escola);						
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new CorpoDeRequisicaoInvalidoException(e.getMessage());
+		}
 	} 
 	
 	public Escola atualizar(Long id, Escola escola) {
