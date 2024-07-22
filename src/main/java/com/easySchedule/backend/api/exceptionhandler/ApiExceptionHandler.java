@@ -36,7 +36,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String parametro = ex.getPropertyName().toLowerCase();
 		
 		String detail = String.format(
-				"O corpo da sua requisição está inválido. O atributo '%s' da entidade '%s' não pode ser null.", 
+				"O corpo da sua requisição está inválido. O atributo %s da entidade %s não pode ser null.", 
 				parametro,
 				entidade);
 
