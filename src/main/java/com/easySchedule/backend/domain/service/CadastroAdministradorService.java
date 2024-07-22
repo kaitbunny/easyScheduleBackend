@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.easySchedule.backend.domain.exception.EntidadeEmUsoException;
 import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Administrador;
 import com.easySchedule.backend.domain.model.enums.TipoAdministrador;
@@ -68,4 +69,12 @@ public class CadastroAdministradorService {
 		return this.salvar(administradorAtual);
 	}
 	
+	public void excluir(Long id) throws EntidadeEmUsoException {
+		try {
+			this.repository.deleteById(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(new Administrador(), id);
+		}
+	}
 }

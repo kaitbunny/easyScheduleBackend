@@ -3,6 +3,7 @@ package com.easySchedule.backend.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,12 @@ public class AdministradorController {
 	@PutMapping("/{id}")
 	public Administrador atualizar(@PathVariable Long id, @RequestBody Administrador administrador) {
 		return this.administradorService.atualizar(id, administrador);
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletar(@PathVariable Long id) {
+		this.administradorService.excluir(id);
 	}
 	
 }
