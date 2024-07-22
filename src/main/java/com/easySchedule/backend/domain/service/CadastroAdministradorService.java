@@ -1,6 +1,7 @@
 package com.easySchedule.backend.domain.service;
 
 import org.hibernate.PropertyValueException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -57,6 +58,14 @@ public class CadastroAdministradorService {
 				throw e;
 			}
 		}
+	}
+	
+	public Administrador atualizar(Long id, Administrador administrador) {
+		Administrador administradorAtual = this.buscarOuFalhar(id);
+		
+		BeanUtils.copyProperties(administrador, administradorAtual, "id");
+		
+		return this.salvar(administradorAtual);
 	}
 	
 }
