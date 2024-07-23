@@ -27,10 +27,9 @@ public class CoordenadorController {
 			@RequestParam(name = "nome", required = false) String nome,
 			@RequestParam(name = "email", required = false) String email,
 			@RequestParam(name = "ativo", required = false) Boolean ativo,
-			@RequestParam(name = "escolaId", required = false) Long escolaId,
 			@RequestParam(name = "cursoId", required = false) Long cursoId
 			) {
 		
-		return coordenadorService.listarPorPagina(page, sortProperty, sortDirection, nome, email, ativo, escolaId, cursoId);
+		return coordenadorService.listarPorPagina(page, sortProperty, sortDirection, nome, email, ativo, cursoId);
 	}
 }

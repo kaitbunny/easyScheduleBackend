@@ -20,7 +20,7 @@ public class CadastroCoordenadorService {
 	private CoordenadorRepository repository;
 	
 	public PaginatedResponse<Coordenador> listarPorPagina(Integer page, String sortProperty, String sortDirection,
-			String nome, String email, Boolean ativo, Long escolaId, Long cursoId) {
+			String nome, String email, Boolean ativo, Long cursoId) {
 		
 		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
 		
@@ -28,7 +28,6 @@ public class CadastroCoordenadorService {
 				where(CoordenadorSpecification.nomeContains(nome)).
 					and(CoordenadorSpecification.emailContains(email)).
 					and(CoordenadorSpecification.isAtivo(ativo)).
-					and(CoordenadorSpecification.escolaIdEquals(escolaId)).
 					and(CoordenadorSpecification.cursoIdEquals(cursoId));
 		
 		Page<Coordenador> result = repository.findAll(spec, pageable);

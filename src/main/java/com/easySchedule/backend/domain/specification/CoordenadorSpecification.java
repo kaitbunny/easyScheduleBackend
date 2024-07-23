@@ -33,15 +33,6 @@ public class CoordenadorSpecification {
 		};
 	}
 	
-	public static Specification<Coordenador> escolaIdEquals(Long escolaId) {
-		return (root, query, criteriaBuilder) -> {
-			if(escolaId == null) {
-				return criteriaBuilder.conjunction();
-			}
-			return criteriaBuilder.equal(root.get("escola").get("id"), escolaId);
-		};
-	}
-	
 	public static Specification<Coordenador> cursoIdEquals(Long cursoId) {
 		return (root, query, criteriaBuilder) -> {
 			if(cursoId == null) {

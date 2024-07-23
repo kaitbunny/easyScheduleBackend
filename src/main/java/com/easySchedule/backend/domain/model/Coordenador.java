@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,10 +29,6 @@ public class Coordenador {
 
     @Column(nullable = false)
     private boolean ativo;
-
-    @ManyToOne
-    @JoinColumn(name = "escola_id", nullable = false)
-    private Escola escola;
 
     @OneToOne
     @JoinColumn(name = "curso_id", unique = true)
