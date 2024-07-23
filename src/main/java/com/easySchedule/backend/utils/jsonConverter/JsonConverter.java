@@ -25,7 +25,7 @@ public abstract class JsonConverter<E extends Enum<E>> implements AttributeConve
         if (dbData == null) {
             return null;
         }
-        String[] enumStrings = dbData.replaceAll("\\[|\\]", "").split(", ");
+        String[] enumStrings = dbData.replaceAll("\\[|\\]|\"", "").split(", ");
         List<E> enums = new ArrayList<>();
         for (String enumString : enumStrings) {
             try {
