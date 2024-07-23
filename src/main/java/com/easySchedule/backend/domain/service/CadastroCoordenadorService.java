@@ -1,6 +1,8 @@
 package com.easySchedule.backend.domain.service;
 
+import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -39,5 +41,19 @@ public class CadastroCoordenadorService {
 	public Coordenador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
 		return repository.findById(id).orElseThrow(() -> 
 				new EntidadeNaoEncontradaException(new Coordenador(), id));
+	}
+	
+	public Coordenador salvar(Coordenador coordenador) throws PropertyValueException {
+		try {
+			return this.repository.save(coordenador);
+		}
+		catch(DataIntegrityViolationException e) {
+			if(e.getCause() instanceof PropertyValueException) {
+				throw (PropertyValueException) e.getCause();
+			}
+			else {
+				throw e;
+			}
+		}
 	}
 }
