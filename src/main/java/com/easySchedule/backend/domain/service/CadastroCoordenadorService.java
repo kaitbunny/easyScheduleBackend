@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.easySchedule.backend.domain.exception.EntidadeNaoEncontradaException;
 import com.easySchedule.backend.domain.model.Coordenador;
 import com.easySchedule.backend.domain.repository.CoordenadorRepository;
 import com.easySchedule.backend.domain.specification.CoordenadorSpecification;
@@ -33,5 +34,10 @@ public class CadastroCoordenadorService {
 		Page<Coordenador> result = repository.findAll(spec, pageable);
 		
 		return ResponseBuilder.build(result, page);
+	}
+	
+	public Coordenador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
+		return repository.findById(id).orElseThrow(() -> 
+				new EntidadeNaoEncontradaException(new Coordenador(), id));
 	}
 }
