@@ -29,7 +29,7 @@ public class AdministradorController {
 	
 	@GetMapping("/{id}")
 	public Administrador buscar(@PathVariable Long id) {
-		return administradorService.buscarOuFalhar(id);
+		return this.administradorService.buscarOuFalhar(id);
 	}
 	
 	@GetMapping
