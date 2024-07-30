@@ -5,6 +5,7 @@ import jakarta.persistence.Converter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Converter
 public abstract class JsonConverter<E extends Enum<E>> implements AttributeConverter<List<E>, String> {
@@ -17,7 +18,14 @@ public abstract class JsonConverter<E extends Enum<E>> implements AttributeConve
 
     @Override
     public String convertToDatabaseColumn(List<E> attribute) {
-        return attribute != null ? Arrays.toString(attribute.toArray()) : null;
+    	if(attribute == null) {
+    		return null;
+    	}
+    	else {
+    		return attribute.stream().
+    				map(s -> "\"" + s + "\"").
+    				collect(Collectors.joining(", ", "[", "]"));
+    	}
     }
 
     @Override

@@ -30,6 +30,7 @@ public class Curso {
     private String nome;
 
     @Convert(converter = JsonConverterPeriodo.class)
+    @Column(columnDefinition = "json")
     private List<Periodo> periodos;
 
     @ManyToOne
