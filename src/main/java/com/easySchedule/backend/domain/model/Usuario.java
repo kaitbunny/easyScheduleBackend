@@ -43,14 +43,6 @@ public class Usuario {
     @Column(nullable = false)
     private TipoUsuario tipo;
     
-    @ManyToMany
-    @JoinTable(
-        name = "professor_disciplina",
-        joinColumns = @JoinColumn(name = "professor_id"),
-        inverseJoinColumns = @JoinColumn(name = "disciplina_id")
-    )
-    private Set<Disciplina> disciplinas = new HashSet<>();
-    
     @Column(nullable = false)
     private boolean ativo;
 
