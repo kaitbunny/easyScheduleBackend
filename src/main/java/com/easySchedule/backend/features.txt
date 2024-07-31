@@ -1,11 +1,11 @@
 features backend easySchedule:
 
-disciplina
-	GET - buscar: OK
-	GET - listar: OK
-	POST - adicionar: OK
-	PUT - atualizar: OK
-	DELETE - deletar: OK
+sala
+	GET - buscar: 
+	GET - listar: 
+	POST - adicionar: 
+	PUT - atualizar: 
+	DELETE - deletar: 
 
 ==============================================
 "CURRENTLY": [
@@ -16,7 +16,7 @@ disciplina
 		curso: OK
 		disciplina: OK
 		escola: OK
-		sala: 
+		sala: fazendo
 		turma: 
 		usuario: 
 		professorDisciplina: 
