@@ -1,0 +1,41 @@
+features backend easySchedule:
+
+disciplina
+	GET - buscar: OK
+	GET - listar: OK
+	POST - adicionar: OK
+	PUT - atualizar: OK
+	DELETE - deletar: OK
+
+==============================================
+"CURRENTLY": [
+	"criar os endpoints básicos de GET, POST, PUT e DELETE em cada api",
+	[
+		administrador: OK
+		coordenador: OK
+		curso: OK
+		disciplina: OK
+		escola: OK
+		sala: 
+		turma: 
+		usuario: 
+		professorDisciplina: 
+	]
+]
+
+##############################################
+
+"TODO": [
+	"entender os erros de quando falta uma chave estrangeira",
+	"tratar strings (case, espaços e etc...)",
+	"criar DTO's para listagens",
+	"fazer validações para impedir que administradores master tenham escola_id e etc...",
+	"criar uma classe validator para verificar email, cpf, senhas e etc...",
+	"implementar autenticação por JWT com o padrão Oauth2.0 e roles com diferentes permissões",
+	"criar a api de auth com endpoints de login e cadastro",
+	"criar um swagger para guardar os endpoints"
+]
+
+"DONE": [
+	"modificar as exceptions para ficarem dinâmicas a partir do nome da classe",	
+]
