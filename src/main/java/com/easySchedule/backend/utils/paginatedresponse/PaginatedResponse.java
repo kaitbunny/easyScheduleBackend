@@ -1,7 +1,8 @@
 package com.easySchedule.backend.utils.paginatedresponse;
 
 import java.util.List;
-
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
@@ -16,5 +17,13 @@ public class PaginatedResponse<T> {
 		this.totalPages = totalPages;
 		this.totalItems = totalItems;
 		this.currentPage = currentPage;
+	}
+
+	// Método map para transformar os itens da lista
+	public <R> PaginatedResponse<R> map(Function<T, R> mapper) {
+		List<R> transformedItems = this.items.stream()
+				.map(mapper)
+				.collect(Collectors.toList());
+		return new PaginatedResponse<>(transformedItems, totalPages, totalItems, currentPage);
 	}
 }
