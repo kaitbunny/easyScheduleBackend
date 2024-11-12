@@ -1,5 +1,7 @@
 package com.easySchedule.backend.api.controller;
 
+import com.easySchedule.backend.api.dto.AdministradorDTO;
+import com.easySchedule.backend.api.mapper.AdministradorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,12 +28,16 @@ public class AdministradorController {
 
 	@Autowired
 	private CadastroAdministradorService administradorService;
-	
+
+	@Autowired
+	private AdministradorMapper administradorMapper;
+
 	@GetMapping("/{id}")
-	public Administrador buscar(@PathVariable Long id) {
-		return this.administradorService.buscarOuFalhar(id);
+	public AdministradorDTO buscar(@PathVariable Long id) {
+		var administrador = this.administradorService.buscarOuFalhar(id);
+		return administradorMapper.toDTO(administrador);
 	}
-	
+
 	@GetMapping
     public PaginatedResponse<Administrador> listar(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -42,19 +48,23 @@ public class AdministradorController {
             @RequestParam(value = "tipo", required = false) TipoAdministrador tipo,
             @RequestParam(value = "ativo", required = false) Boolean ativo,
             @RequestParam(value = "escolaId", required = false) Long escolaId) {
-        
+
         return this.administradorService.listarPorPagina(page, sortProperty, sortDirection, nome, email, tipo, ativo, escolaId);
     }
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Administrador adicionar(@RequestBody Administrador administrador) {
-		return this.administradorService.salvar(administrador);
+	public AdministradorDTO adicionar(@RequestBody AdministradorDTO administradorDTO) {
+		var administrador = administradorMapper.toEntity(administradorDTO);
+		var savedAdministrador = this.administradorService.salvar(administrador);
+		return administradorMapper.toDTO(savedAdministrador);
 	}
-	
+
 	@PutMapping("/{id}")
-	public Administrador atualizar(@PathVariable Long id, @RequestBody Administrador administrador) {
-		return this.administradorService.atualizar(id, administrador);
+	public AdministradorDTO atualizar(@PathVariable Long id, @RequestBody AdministradorDTO administradorDTO) {
+		var administrador = administradorMapper.toEntity(administradorDTO);
+		var updatedAdministrador = this.administradorService.atualizar(id, administrador);
+		return administradorMapper.toDTO(updatedAdministrador);
 	}
 	
 	@DeleteMapping("/{id}")
