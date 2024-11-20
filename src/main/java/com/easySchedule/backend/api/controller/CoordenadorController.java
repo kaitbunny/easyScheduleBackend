@@ -50,8 +50,9 @@ public class CoordenadorController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CoordenadorDTO adicionar(@RequestBody CoordenadorDTO coordenadorDTO) {
-		Coordenador coordenador = coordenadorMapper.toEntity(coordenadorDTO);
-		return coordenadorMapper.toDTO(coordenadorService.salvar(coordenador));
+		var coordenador = coordenadorMapper.toEntity(coordenadorDTO);
+		var savedCoordenador = this.coordenadorService.salvar(coordenador);
+		return coordenadorMapper.toDTO(savedCoordenador);
 	}
 
 	@PutMapping("/{id}")

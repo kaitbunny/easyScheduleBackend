@@ -1,17 +1,15 @@
 package com.easySchedule.backend.api.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class CoordenadorDTO {
 
-    private Long id;
     private String nome;
     private String email;
+    private String senha;
     private boolean ativo;
     private Long cursoId;
 }
