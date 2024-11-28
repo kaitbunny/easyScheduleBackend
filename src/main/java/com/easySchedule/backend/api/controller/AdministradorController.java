@@ -39,7 +39,7 @@ public class AdministradorController {
 	}
 
 	@GetMapping
-    public PaginatedResponse<Administrador> listar(
+    public PaginatedResponse<AdministradorDTO> listar(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "sortProperty", defaultValue = "id") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "desc") String sortDirection,
@@ -47,9 +47,16 @@ public class AdministradorController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "tipo", required = false) TipoAdministrador tipo,
             @RequestParam(value = "ativo", required = false) Boolean ativo,
-            @RequestParam(value = "escolaId", required = false) Long escolaId) {
+            @RequestParam(value = "escolaId", required = false) Long escolaId
+	) {
+		PaginatedResponse<Administrador> administradores = this.administradorService.listarPorPagina(
+				page, sortProperty, sortDirection, nome, email, tipo, ativo, escolaId);
 
-        return this.administradorService.listarPorPagina(page, sortProperty, sortDirection, nome, email, tipo, ativo, escolaId);
+		PaginatedResponse<AdministradorDTO> administradorDTOs = administradores.map(administrador ->
+				administradorMapper.toDTO(administrador)
+		);
+
+        return administradorDTOs;
     }
 
 	@PostMapping

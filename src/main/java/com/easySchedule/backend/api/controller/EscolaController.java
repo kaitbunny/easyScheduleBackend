@@ -1,5 +1,7 @@
 package com.easySchedule.backend.api.controller;
 
+import com.easySchedule.backend.api.dto.EscolaDTO;
+import com.easySchedule.backend.api.mapper.EscolaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,31 +27,42 @@ public class EscolaController {
 
 	@Autowired
 	private CadastroEscolaService escolaService;
+
+	@Autowired
+	private EscolaMapper escolaMapper;
 	
 	@GetMapping("/{id}")
-	public Escola buscar(@PathVariable Long id) {
-		return this.escolaService.buscarOuFalhar(id);
+	public EscolaDTO buscar(@PathVariable Long id) {
+		var escola = this.escolaService.buscarOuFalhar(id);
+		return escolaMapper.toDTO(escola);
 	}
 	
 	@GetMapping
-    public PaginatedResponse<Escola> listar(
+    public PaginatedResponse<EscolaDTO> listar(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "sortProperty", defaultValue = "id") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "desc") String sortDirection,
-            @RequestParam(value = "nome", required = false) String nome) {
-        
-        return this.escolaService.listarPorPagina(page, sortProperty, sortDirection, nome);
+            @RequestParam(value = "nome", required = false) String nome
+	) {
+        PaginatedResponse<Escola> escolas = this.escolaService.listarPorPagina(page, sortProperty, sortDirection, nome);
+
+		PaginatedResponse<EscolaDTO> escolaDTOs = escolas.map(escola -> escolaMapper.toDTO(escola));
+        return escolaDTOs;
     }
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Escola adicionar(@RequestBody Escola escola) {
-		return this.escolaService.salvar(escola);
+	public EscolaDTO adicionar(@RequestBody EscolaDTO escolaDTO) {
+		var escola = escolaMapper.toEntity(escolaDTO);
+		var savedEscola = this.escolaService.salvar(escola);
+		return escolaMapper.toDTO(savedEscola);
 	}
 	
 	@PutMapping("/{id}")
-	public Escola atualizar(@PathVariable Long id, @RequestBody Escola escola) {
-		return this.escolaService.atualizar(id, escola);
+	public EscolaDTO atualizar(@PathVariable Long id, @RequestBody EscolaDTO escolaDTO) {
+		var escola = escolaMapper.toEntity(escolaDTO);
+		var updatedEscola = this.escolaService.atualizar(id, escola);
+		return escolaMapper.toDTO(updatedEscola);
 	}
 	
 	@DeleteMapping("/{id}")

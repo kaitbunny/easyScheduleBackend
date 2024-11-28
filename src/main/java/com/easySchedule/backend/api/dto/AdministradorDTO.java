@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AdministradorDTO {
+    private Long id;
     private String nome;
     private String email;
     private TipoAdministrador tipo;
     private String senha;
     private boolean ativo;
-    private Long escolaId;
+    private String escolaNome;
 }

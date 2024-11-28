@@ -8,25 +8,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class CoordenadorMapper {
 
-    public static CoordenadorDTO toDTO(Coordenador coordenador) {
+    public CoordenadorDTO toDTO(Coordenador coordenador) {
         CoordenadorDTO dto = new CoordenadorDTO();
+        dto.setId(coordenador.getId());
         dto.setNome(coordenador.getNome());
         dto.setEmail(coordenador.getEmail());
         dto.setAtivo(coordenador.isAtivo());
-        dto.setCursoId(coordenador.getCurso() != null ? coordenador.getCurso().getId() : null);
+        dto.setCursoNome(coordenador.getCurso() != null ? coordenador.getCurso().getNome() : null);
         return dto;
     }
 
-    public static Coordenador toEntity(CoordenadorDTO inputDTO) {
+    public Coordenador toEntity(CoordenadorDTO inputDTO) {
         Coordenador coordenador = new Coordenador();
+        coordenador.setId(inputDTO.getId());
         coordenador.setNome(inputDTO.getNome());
         coordenador.setEmail(inputDTO.getEmail());
         coordenador.setSenha(inputDTO.getSenha());
         coordenador.setAtivo(inputDTO.isAtivo());
 
-        if (inputDTO.getCursoId() != null) {
+        if (inputDTO.getCursoNome() != null) {
             Curso curso = new Curso();
-            curso.setId(inputDTO.getCursoId());
+            curso.setNome(inputDTO.getCursoNome());
             coordenador.setCurso(curso);
         }
 

@@ -1,5 +1,7 @@
 package com.easySchedule.backend.api.controller;
 
+import com.easySchedule.backend.api.dto.CursoDTO;
+import com.easySchedule.backend.api.mapper.CursoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,33 +28,47 @@ public class CursoController {
 
 	@Autowired
 	private CadastroCursoService cursoService;
-	
+	@Autowired
+	private CursoMapper cursoMapper;
+
 	@GetMapping("/{id}")
-	public Curso buscar(@PathVariable Long id) {
-		return this.cursoService.buscarOuFalhar(id);
+	public CursoDTO buscar(@PathVariable Long id) {
+		var curso = this.cursoService.buscarOuFalhar(id);
+		return cursoMapper.toDTO(curso);
 	}
 	
 	@GetMapping
-	public PaginatedResponse<Curso> listar(
+	public PaginatedResponse<CursoDTO> listar(
 			@RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "sortProperty", defaultValue = "id") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "desc") String sortDirection,
+			@RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "periodo", required = false) Periodo periodo,
-            @RequestParam(value = "escolaId", required = false) Long escolaId) {
-		
-		return this.cursoService.listarPorPagina(page, sortProperty, sortDirection, nome, periodo, escolaId);
+            @RequestParam(value = "escolaId", required = false) Long escolaId
+	) {
+		PaginatedResponse<Curso> cursos = this.cursoService.listarPorPagina(
+				page, sortProperty, sortDirection, nome, periodo, escolaId);
+
+		PaginatedResponse<CursoDTO> cursoDTOs = cursos.map(curso ->
+				cursoMapper.toDTO(curso)
+		);
+
+		return cursoDTOs;
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Curso adicionar(@RequestBody Curso curso) {
-		return this.cursoService.salvar(curso);
+	public CursoDTO adicionar(@RequestBody CursoDTO cursoDTO) {
+		var curso = cursoMapper.toEntity(cursoDTO);
+		var savedCurso = this.cursoService.salvar(curso);
+		return cursoMapper.toDTO(savedCurso);
 	}
 	
 	@PutMapping("/{id}")
-	public Curso atualizar(@PathVariable Long id, @RequestBody Curso curso) {
-		return this.cursoService.atualizar(id, curso);
+	public CursoDTO atualizar(@PathVariable Long id, @RequestBody CursoDTO cursoDTO) {
+		Curso curso = cursoMapper.toEntity(cursoDTO);
+		return cursoMapper.toDTO(cursoService.atualizar(id, curso));
 	}
 	
 	@DeleteMapping("/{id}")
