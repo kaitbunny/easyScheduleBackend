@@ -14,4 +14,5 @@ public class AdministradorDTO {
     private String senha;
     private boolean ativo;
     private String escolaNome;
+    private Long escolaId;
 }

@@ -17,7 +17,10 @@ public class AdministradorMapper {
         dto.setTipo(administrador.getTipo());
         dto.setSenha(administrador.getSenha());
         dto.setAtivo(administrador.isAtivo());
-        dto.setEscolaNome(administrador.getEscola() != null ? administrador.getEscola().getNome() : null);
+        if (administrador.getEscola() != null) {
+            dto.setEscolaNome(administrador.getEscola().getNome());
+            dto.setEscolaId(administrador.getEscola().getId());
+        }
         return dto;
     }
 
@@ -30,8 +33,10 @@ public class AdministradorMapper {
         administrador.setSenha(inputDTO.getSenha());
         administrador.setAtivo(inputDTO.isAtivo());
 
-        if (inputDTO.getEscolaNome() != null) {
+
+        if (inputDTO.getEscolaId() != null) {
             Escola escola = new Escola();
+            escola.setId(inputDTO.getEscolaId());
             escola.setNome(inputDTO.getEscolaNome());
             administrador.setEscola(escola);
         }

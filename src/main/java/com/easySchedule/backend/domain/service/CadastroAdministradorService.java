@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import com.easySchedule.backend.domain.model.Escola;
 import org.hibernate.PropertyValueException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,16 @@ public class CadastroAdministradorService {
 	@Autowired
 	private AdministradorRepository repository;
 
+	@Autowired
+	private CadastroEscolaService escolaService;
+
 	public Administrador buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
 		return repository.findById(id).orElseThrow(() ->
 		new EntidadeNaoEncontradaException(new Administrador(), id));
 	}
 	
 	public PaginatedResponse<Administrador> listarPorPagina(Integer page, String sortProperty, String sortDirection,
-            String nome, String email, TipoAdministrador tipo, Boolean ativo, Long escolaId) {
+															String nome, String email, TipoAdministrador tipo, Boolean ativo, Long escolaId, Long escolaNome) {
         
         Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
         
@@ -40,7 +44,8 @@ public class CadastroAdministradorService {
                     and(AdministradorSpecification.emailContains(email)).
                     and(AdministradorSpecification.tipoEquals(tipo)).
                     and(AdministradorSpecification.isAtivo(ativo)).
-                    and(AdministradorSpecification.escolaIdEquals(escolaId));
+                    and(AdministradorSpecification.escolaIdEquals(escolaId)).
+					and(AdministradorSpecification.escolaIdEquals(escolaNome));
         
         Page<Administrador> result = repository.findAll(spec, pageable);
         
@@ -48,6 +53,10 @@ public class CadastroAdministradorService {
     }
 	
 	public Administrador salvar(Administrador administrador) throws PropertyValueException {
+		if (administrador.getEscola().getId() != null) {
+			Escola escola = escolaService.buscarOuFalhar(administrador.getEscola().getId());
+			administrador.setEscola(escola);
+		}
 		try {
 			return this.repository.save(administrador);
 		}

@@ -47,10 +47,11 @@ public class AdministradorController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "tipo", required = false) TipoAdministrador tipo,
             @RequestParam(value = "ativo", required = false) Boolean ativo,
-            @RequestParam(value = "escolaId", required = false) Long escolaId
+            @RequestParam(value = "escolaId", required = false) Long escolaId,
+			@RequestParam(value = "escolaNome", required = false) Long escolaNome
 	) {
 		PaginatedResponse<Administrador> administradores = this.administradorService.listarPorPagina(
-				page, sortProperty, sortDirection, nome, email, tipo, ativo, escolaId);
+				page, sortProperty, sortDirection, nome, email, tipo, ativo, escolaId, escolaNome);
 
 		PaginatedResponse<AdministradorDTO> administradorDTOs = administradores.map(administrador ->
 				administradorMapper.toDTO(administrador)
