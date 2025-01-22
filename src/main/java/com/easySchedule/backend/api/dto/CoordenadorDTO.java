@@ -11,5 +11,6 @@ public class CoordenadorDTO {
     private String email;
     private String senha;
     private boolean ativo;
+    private Long cursoId;
     private String cursoNome;
 }

@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import com.easySchedule.backend.domain.model.Curso;
 import org.hibernate.PropertyValueException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,11 @@ public class CadastroCoordenadorService {
 	
 	@Autowired
 	private CoordenadorRepository repository;
+	@Autowired
+	private CadastroCursoService cursoService;
 	
 	public PaginatedResponse<Coordenador> listarPorPagina(Integer page, String sortProperty, String sortDirection,
-			String nome, String email, Boolean ativo, Long cursoId) {
+			String nome, String email, Boolean ativo, Long cursoId, Long cursoNome) {
 		
 		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
 		
@@ -33,7 +36,8 @@ public class CadastroCoordenadorService {
 				where(CoordenadorSpecification.nomeContains(nome)).
 					and(CoordenadorSpecification.emailContains(email)).
 					and(CoordenadorSpecification.isAtivo(ativo)).
-					and(CoordenadorSpecification.cursoIdEquals(cursoId));
+					and(CoordenadorSpecification.cursoIdEquals(cursoId)).
+					and(CoordenadorSpecification.cursoIdEquals(cursoNome));
 		
 		Page<Coordenador> result = repository.findAll(spec, pageable);
 		
@@ -46,6 +50,10 @@ public class CadastroCoordenadorService {
 	}
 	
 	public Coordenador salvar(Coordenador coordenador) throws PropertyValueException {
+		if (coordenador.getCurso().getId() != null) {
+			Curso curso = cursoService.buscarOuFalhar(coordenador.getCurso().getId());
+			coordenador.setCurso(curso);
+		}
 		try {
 			return this.repository.save(coordenador);
 		}

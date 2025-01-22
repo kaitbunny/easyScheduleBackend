@@ -34,10 +34,11 @@ public class CoordenadorController {
 			@RequestParam(name = "nome", required = false) String nome,
 			@RequestParam(name = "email", required = false) String email,
 			@RequestParam(name = "ativo", required = false) Boolean ativo,
-			@RequestParam(name = "cursoId", required = false) Long cursoId
+			@RequestParam(name = "cursoId", required = false) Long cursoId,
+			@RequestParam(name = "cursoNome", required = false) Long cursoNome
 	) {
 		PaginatedResponse<Coordenador> coordenadores = this.coordenadorService.listarPorPagina(
-				page, sortProperty, sortDirection, nome, email, ativo, cursoId);
+				page, sortProperty, sortDirection, nome, email, ativo, cursoId, cursoNome);
 
 		// Usando o map para converter Coordenador para CoordenadorDTO
 		PaginatedResponse<CoordenadorDTO> coordenadorDTOs = coordenadores.map(coordenador ->

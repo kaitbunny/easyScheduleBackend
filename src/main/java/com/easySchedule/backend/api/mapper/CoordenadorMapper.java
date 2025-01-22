@@ -14,7 +14,10 @@ public class CoordenadorMapper {
         dto.setNome(coordenador.getNome());
         dto.setEmail(coordenador.getEmail());
         dto.setAtivo(coordenador.isAtivo());
-        dto.setCursoNome(coordenador.getCurso() != null ? coordenador.getCurso().getNome() : null);
+        if (coordenador.getCurso() != null) {
+            dto.setCursoId(coordenador.getCurso().getId());
+            dto.setCursoNome(coordenador.getCurso().getNome());
+        }
         return dto;
     }
 
@@ -26,8 +29,9 @@ public class CoordenadorMapper {
         coordenador.setSenha(inputDTO.getSenha());
         coordenador.setAtivo(inputDTO.isAtivo());
 
-        if (inputDTO.getCursoNome() != null) {
+        if (inputDTO.getCursoId() != null) {
             Curso curso = new Curso();
+            curso.setId(inputDTO.getCursoId());
             curso.setNome(inputDTO.getCursoNome());
             coordenador.setCurso(curso);
         }
