@@ -13,5 +13,6 @@ public class CursoDTO {
     private Long id;
     private String nome;
     private List<Periodo> periodos;
+    private Long escolaId;
     private String escolaNome;
 }

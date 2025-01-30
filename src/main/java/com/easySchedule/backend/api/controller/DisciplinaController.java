@@ -44,10 +44,11 @@ public class DisciplinaController {
 			@RequestParam(name = "sortDirection", defaultValue = "desc") String sortDirection,
 			@RequestParam(name = "nome", required = false) String nome,
 			@RequestParam(name = "ativo", required = false) Boolean ativo,
-			@RequestParam(name = "cursoId", required = false) Long cursoId) {
+			@RequestParam(name = "cursoId", required = false) Long cursoId,
+			@RequestParam(name = "cursoNome", required = false) Long cursoNome) {
 
 		PaginatedResponse<Disciplina> disciplinas = this.disciplinaService.listarPorPagina(
-				page, sortProperty, sortDirection, nome, ativo, cursoId);
+				page, sortProperty, sortDirection, nome, ativo, cursoId, cursoNome);
 
 		PaginatedResponse<DisciplinaDTO> disciplinaDTOs = disciplinas.map(disciplina ->
 				disciplinaMapper.toDTO(disciplina)

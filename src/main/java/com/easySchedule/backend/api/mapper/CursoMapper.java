@@ -12,6 +12,7 @@ public class CursoMapper {
         dto.setId(curso.getId());
         dto.setNome(curso.getNome());
         dto.setPeriodos(curso.getPeriodos());
+        dto.setEscolaId(curso.getEscola() != null ? curso.getEscola().getId() : null);
         dto.setEscolaNome(curso.getEscola() != null ? curso.getEscola().getNome() : null);
         return dto;
     }
@@ -22,8 +23,9 @@ public class CursoMapper {
         curso.setNome(inputDTO.getNome());
         curso.setPeriodos(inputDTO.getPeriodos());
 
-        if (inputDTO.getEscolaNome() != null) {
+        if (inputDTO.getEscolaId() != null) {
             Escola escola = new Escola();
+            escola.setId(inputDTO.getEscolaId());
             escola.setNome(inputDTO.getEscolaNome());
             curso.setEscola(escola);
         }

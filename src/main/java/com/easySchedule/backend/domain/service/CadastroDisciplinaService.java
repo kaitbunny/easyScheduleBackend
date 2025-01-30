@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import com.easySchedule.backend.domain.model.Curso;
 import org.hibernate.PropertyValueException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class CadastroDisciplinaService {
 
 	@Autowired
 	private DisciplinaRepository repository;
+
+	@Autowired
+	private CadastroCursoService cursoService;
 	
 	public Disciplina buscarOuFalhar(Long id) {
 		return this.repository.findById(id).orElseThrow(() ->
@@ -30,14 +34,15 @@ public class CadastroDisciplinaService {
 	}
 	
 	public PaginatedResponse<Disciplina> listarPorPagina(Integer page, String sortProperty,
-			String sortDirection, String nome, Boolean ativo, Long cursoId) {
+			String sortDirection, String nome, Boolean ativo, Long cursoId, Long cursoNome) {
 		
 		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
 		
 		Specification<Disciplina> spec = Specification.
 				where(DisciplinaSpecification.nomeContains(nome)).
 					and(DisciplinaSpecification.isAtivo(ativo)).
-					and(DisciplinaSpecification.cursoIdEquals(cursoId));
+					and(DisciplinaSpecification.cursoIdEquals(cursoId)).
+					and(DisciplinaSpecification.cursoIdEquals(cursoNome));
 		
 		Page<Disciplina> result = this.repository.findAll(spec, pageable);
 		
@@ -45,6 +50,10 @@ public class CadastroDisciplinaService {
 	}
 	
 	public Disciplina salvar(Disciplina disciplina) throws PropertyValueException {
+		if (disciplina.getCurso().getId() != null) {
+			Curso curso = cursoService.buscarOuFalhar(disciplina.getCurso().getId());
+			disciplina.setCurso(curso);
+		}
 		try {
 			return this.repository.save(disciplina);
 		}

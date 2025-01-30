@@ -12,6 +12,7 @@ public class DisciplinaMapper {
         dto.setId(disciplina.getId());
         dto.setNome(disciplina.getNome());
         dto.setAtivo(disciplina.isAtivo());
+        dto.setCursoId(disciplina.getCurso() != null ? disciplina.getCurso().getId() : null);
         dto.setCursoNome(disciplina.getCurso() != null ? disciplina.getCurso().getNome() : null);
         return dto;
     }
@@ -22,8 +23,9 @@ public class DisciplinaMapper {
         disciplina.setNome(inputDTO.getNome());
         disciplina.setAtivo(inputDTO.isAtivo());
 
-        if (inputDTO.getCursoNome() != null) {
+        if (inputDTO.getCursoId() != null) {
             Curso curso = new Curso();
+            curso.setId(inputDTO.getCursoId());
             curso.setNome(inputDTO.getCursoNome());
             disciplina.setCurso(curso);
         }

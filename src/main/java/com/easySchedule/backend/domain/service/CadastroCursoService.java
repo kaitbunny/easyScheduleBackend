@@ -1,5 +1,6 @@
 package com.easySchedule.backend.domain.service;
 
+import com.easySchedule.backend.domain.model.Escola;
 import org.hibernate.PropertyValueException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class CadastroCursoService {
 	
 	@Autowired
 	private CursoRepository repository;
+
+	@Autowired
+	private CadastroEscolaService escolaService;
 	
 	public Curso buscarOuFalhar(Long id) throws EntidadeNaoEncontradaException {
 		return this.repository.findById(id).orElseThrow(() ->
@@ -31,14 +35,15 @@ public class CadastroCursoService {
 	}
 	
 	public PaginatedResponse<Curso> listarPorPagina(Integer page, String sortProperty, String sortDirection,
-			String nome, Periodo periodo, Long escolaId) {
+													String nome, Periodo periodo, Long escolaId, String escolaNome) {
 		
 		Pageable pageable = PageableBuilder.build(page, sortProperty, sortDirection);
 		
 		Specification<Curso> spec = Specification.
 				where(CursoSpecification.nomeContains(nome)).
 					and(CursoSpecification.periodoContains(periodo)).
-					and(CursoSpecification.escolaIdEquals(escolaId));
+					and(CursoSpecification.escolaIdEquals(escolaId)).
+					and(CursoSpecification.nomeContains(escolaNome));
 		
 		Page<Curso> result = repository.findAll(spec, pageable);
 		
@@ -46,6 +51,10 @@ public class CadastroCursoService {
 	}
 	
 	public Curso salvar(Curso curso) throws PropertyValueException {
+		if (curso.getEscola().getId() != null) {
+			Escola escola = escolaService.buscarOuFalhar(curso.getEscola().getId());
+			curso.setEscola(escola);
+		}
 		try {
 			return this.repository.save(curso);
 		}

@@ -45,10 +45,11 @@ public class CursoController {
 			@RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "periodo", required = false) Periodo periodo,
-            @RequestParam(value = "escolaId", required = false) Long escolaId
+            @RequestParam(value = "escolaId", required = false) Long escolaId,
+			@RequestParam(value = "escolaNome", required = false) String escolaNome
 	) {
 		PaginatedResponse<Curso> cursos = this.cursoService.listarPorPagina(
-				page, sortProperty, sortDirection, nome, periodo, escolaId);
+				page, sortProperty, sortDirection, nome, periodo, escolaId, escolaNome);
 
 		PaginatedResponse<CursoDTO> cursoDTOs = cursos.map(curso ->
 				cursoMapper.toDTO(curso)
