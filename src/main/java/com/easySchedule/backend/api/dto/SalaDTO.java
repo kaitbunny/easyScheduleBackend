@@ -10,5 +10,6 @@ public class SalaDTO {
     private String numero;
     private String andar;
     private String predio;
+    private Long escolaId;
     private String escolaNome;
 }

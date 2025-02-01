@@ -5,6 +5,7 @@ import com.easySchedule.backend.api.mapper.SalaMapper;
 import com.easySchedule.backend.domain.model.Sala;
 import com.easySchedule.backend.utils.paginatedresponse.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.easySchedule.backend.domain.service.CadastroSalaService;
@@ -43,5 +44,25 @@ public class SalaController {
 				salaMapper.toDTO(sala));
 
 		return salaDTOs;
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public SalaDTO adicionar(@RequestBody SalaDTO salaDTO) {
+		var sala = salaMapper.toEntity(salaDTO);
+		var savedSala = this.salaService.salvar(sala);
+		return salaMapper.toDTO(savedSala);
+	}
+
+	@PutMapping("/{id}")
+	public SalaDTO atualizar(@PathVariable Long id, @RequestBody SalaDTO salaDTO) {
+		Sala sala = salaMapper.toEntity(salaDTO);
+		return salaMapper.toDTO(salaService.atualizar(id, sala));
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void excluir(@PathVariable Long id) {
+		salaService.excluir(id);
 	}
 }

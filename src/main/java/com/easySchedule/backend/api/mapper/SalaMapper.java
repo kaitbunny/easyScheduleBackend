@@ -13,6 +13,7 @@ public class SalaMapper {
         dto.setNumero(sala.getNumero());
         dto.setAndar(sala.getAndar());
         dto.setPredio(sala.getPredio());
+        dto.setEscolaId(sala.getEscola() != null ? sala.getEscola().getId() : null );
         dto.setEscolaNome(sala.getEscola() != null ? sala.getEscola().getNome() : null );
         return dto;
     }
@@ -24,8 +25,9 @@ public class SalaMapper {
         sala.setAndar(inputDTO.getAndar());
         sala.setPredio(inputDTO.getPredio());
 
-        if (inputDTO.getEscolaNome() != null) {
+        if (inputDTO.getEscolaId() != null) {
             Escola escola = new Escola();
+            escola.setId(inputDTO.getEscolaId());
             escola.setNome(inputDTO.getEscolaNome());
             sala.setEscola(escola);
         }
